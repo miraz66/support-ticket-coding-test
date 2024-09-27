@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Mail\TicketPosted;
-use App\Mail\TicketReplyNotification;
 use App\Models\Ticket;
-use App\Models\TicketReply;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 
 class TicketController extends Controller
@@ -54,7 +51,7 @@ class TicketController extends Controller
         ]);
 
 
-        // Notify the customer via email simple mail
+        // Notify the customer via email simple mail transfer protocol use for mailtrap
         Mail::to($ticket->user->email)->send(
             new TicketPosted($ticket)
         );

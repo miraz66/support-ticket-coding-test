@@ -46,7 +46,7 @@ class AdminTicketController extends Controller
             'message' => $request->message,
         ]);
 
-        // Notify the customer via email simple mail
+        // Notify the customer via email simple mail transfer protocol use for mailtrap
         Mail::to($ticket->user->email)->send(new TicketReplyNotification($ticket));
 
         return redirect()->back()->with('success', 'Your reply has been sent.');
