@@ -31,7 +31,7 @@ class AdminTicketController extends Controller
         return redirect()->route('admin')->with('success', 'Ticket closed successfully!');
     }
 
-    public function reply(Request $request, $ticketId)
+    public function AdminReply(Request $request, $ticketId)
     {
         $request->validate([
             'message' => 'required|string',
@@ -44,6 +44,7 @@ class AdminTicketController extends Controller
             'ticket_id' => $ticket->id,
             'user_id' => Auth::id(),
             'message' => $request->message,
+            'user_type' => 'admin',
         ]);
 
         // Notify the customer via email simple mail transfer protocol use for mailtrap

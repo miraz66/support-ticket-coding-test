@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/customer/create', [TicketController::class, 'create'])->name('customer.create');
     Route::get('/customer/{ticket}', [TicketController::class, 'show'])->name('customer.show');
     Route::post('/customer/tickets', [TicketController::class, 'store'])->name('tickets.store');
+    Route::post('/customer/{ticket}/reply', [TicketController::class, 'customerReply'])->name('customer.reply');
 });
 
 // Admin Routes
@@ -30,7 +31,7 @@ Route::middleware(['auth', 'role:admin', 'verified'])->group(function () {
     Route::get('/admin', [AdminTicketController::class, 'index'])->name('admin');
     Route::get('/admin/{ticket}', [AdminTicketController::class, 'show'])->name('admin.show');
     Route::post('/admin/{ticket}/close', [AdminTicketController::class, 'close'])->name('admin.close');
-    Route::post('/admin/{ticket}/reply', [AdminTicketController::class, 'reply'])->name('admin.reply');
+    Route::post('/admin/{ticket}/reply', [AdminTicketController::class, 'AdminReply'])->name('admin.reply');
 });
 
 Route::middleware('auth')->group(function () {

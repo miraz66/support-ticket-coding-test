@@ -17,16 +17,17 @@
         </div>
 
         <h3 class="text-xl font-bold mb-4">Replies</h3>
-        @foreach ($ticket->replies as $reply)
-            <div class="bg-white shadow rounded-lg mb-4">
-                <div class="px-6 py-4">
-                    <strong>{{ $reply->user->name }}:</strong>
-                    <p class="mb-2">{{ $reply->message }}</p>
-                    <small class="text-gray-500">{{ $reply->created_at->diffForHumans() }}</small>
+        <div class="pt-5 border-t border-gray-200/15">
+            @foreach ($ticket->replies as $reply)
+                <div class="flex mb-4 {{ $reply->user_type === 'customer' ? 'justify-start' : 'justify-end' }}">
+                    <div class="bg-zinc-800/5 px-6 py-4 rounded-lg w-[40%] bg-zinc-700">
+                        <strong>{{ $reply->user_type }}:</strong>
+                        <p class="mb-2">{{ $reply->message }}</p>
+                        <small class="text-gray-500">{{ $reply->created_at->diffForHumans() }}</small>
+                    </div>
                 </div>
-            </div>
-        @endforeach
-
+            @endforeach
+        </div>
 
         <!-- Reply Form for Admin -->
         @if ($ticket->status === 'open')

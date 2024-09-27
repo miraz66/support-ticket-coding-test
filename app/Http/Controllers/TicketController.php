@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Mail\TicketPosted;
+use App\Mail\TicketReplyNotification;
 use App\Models\Ticket;
+use App\Models\TicketReply;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -57,5 +59,27 @@ class TicketController extends Controller
         );
 
         return redirect('/')->with('success', 'Ticket created successfully!');
+    }
+
+    public function customerReply(Request $request, $ticketId)
+    {
+        $request->validate([
+            'message' => 'required|string',
+        ]);
+
+        $ticket = Ticket::findOrFail($ticketId);
+
+
+        TicketReply::create([
+            'ticket_id' => $ticket->id,
+            'user_id' => Auth::id(),
+            'message' => $request->message,
+            'user_type' => 'customer',
+        ]);
+
+        // Notify the customer via email simple mail transfer protocol use for mailtrap
+        Mail::to($ticket->user->email)->send(new TicketReplyNotification($ticket));
+
+        return redirect()->back()->with('success', 'Your reply has been sent.');
     }
 }
